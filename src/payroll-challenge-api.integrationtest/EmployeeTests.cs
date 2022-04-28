@@ -63,4 +63,25 @@ public class EmployeeTests
         Assert.That(statusCode3, Is.EqualTo(HttpStatusCode.OK));
         Assert.That(results?.Count(), Is.EqualTo(6));
     }
+
+    [Test]
+    public async Task DeletingNonExistentEmployeeReturnsNotFound()
+    {
+        var statusCode = await _client.Delete(Guid.NewGuid());
+        Assert.That(statusCode, Is.EqualTo(HttpStatusCode.NotFound));
+    }
+
+    [Test]
+    public async Task CanDeleteEmployee()
+    {
+        var (_, results) = await _client.Get();
+        var first = results?.First() ?? throw new Exception("No results");
+
+        var statusCode = await _client.Delete(first.Id);
+        
+        Assert.That(statusCode, Is.EqualTo(HttpStatusCode.OK));
+
+        var (statusCode2, _) = await _client.Get(first.Id);
+        Assert.That(statusCode2, Is.EqualTo(HttpStatusCode.NotFound));
+    }
 }

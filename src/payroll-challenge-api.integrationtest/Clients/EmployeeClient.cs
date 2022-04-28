@@ -35,4 +35,13 @@ public class EmployeeClient : BaseClient
         var response = await Client.PostAsync($"Employees/", 
             new StringContent(obj.ToString(), Encoding.UTF8, "application/json"));
         return await ParseResponseAsync<EmployeeViewModel>(response);
-    }}
+    }
+    
+    public async Task<HttpStatusCode> Delete(Guid id)
+    {
+        var response = await Client.DeleteAsync($"Employees/{id}");
+        return response.StatusCode;
+    }
+}
+    
+    

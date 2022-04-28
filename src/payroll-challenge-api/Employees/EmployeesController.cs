@@ -33,4 +33,11 @@ public class EmployeesController : ControllerBase
         var newEmployee = await _employeeService.Add(employee.Name);
         return Created($"/employees/{newEmployee.Id}", newEmployee);
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _employeeService.DeleteById(id);
+        return Ok();
+    }
 }

@@ -45,4 +45,13 @@ public class EmployeeService
             Name = employee.Name
         };
     }
+
+    public async Task DeleteById(Guid id)
+    {
+        var employee = await _context.Employees.FindAsync(id);
+        if (employee == null) throw new NotFoundException();
+        
+        _context.Employees.Remove(employee);
+        await _context.SaveChangesAsync();
+    }
 }
