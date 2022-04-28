@@ -6,4 +6,5 @@ public class Employee
 {
     public Guid EmployeeId { get; set; }
     public string Name { get; set; }
+    public List<Dependent> Dependents { get; } = new();
 }
