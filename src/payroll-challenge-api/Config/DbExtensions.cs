@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using payroll_challenge_api.Db;
 
 namespace payroll_challenge_api.Config;
@@ -11,8 +14,6 @@ internal static class DbExtensions
         {
             var connectionString = builder.Configuration.GetConnectionString("EmployeeContext");
 
-            Console.Out.Write("connection string");
-            Console.Out.WriteLine(connectionString);
             options.UseNpgsql(connectionString);
         });
     }

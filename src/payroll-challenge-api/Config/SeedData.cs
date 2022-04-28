@@ -1,3 +1,4 @@
+using System.Linq;
 using payroll_challenge_api.Db;
 
 namespace payroll_challenge_api.Config;
@@ -9,7 +10,7 @@ public static class SeedData
         if (context.Employees.Any())
             return;
 
-        var employees = new Employee[]
+        var employees = new[]
         {
             new Employee {Name = "Brad"},
             new Employee {Name = "Craig"},

@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using payroll_challenge_api.Config;
-using payroll_challenge_api.Db;
 using payroll_challenge_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);

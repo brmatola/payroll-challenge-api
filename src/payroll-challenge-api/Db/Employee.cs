@@ -1,3 +1,5 @@
+using System;
+
 namespace payroll_challenge_api.Db;
 
 public class Employee
