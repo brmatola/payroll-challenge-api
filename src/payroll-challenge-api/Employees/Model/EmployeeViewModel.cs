@@ -1,4 +1,4 @@
-namespace payroll_challenge_api.Services;
+namespace payroll_challenge_api.Employees.Model;
 
 public class EmployeeViewModel
 {

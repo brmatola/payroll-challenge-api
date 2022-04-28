@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using payroll_challenge_api.Db;
+using payroll_challenge_api.Employees.Model;
 
-namespace payroll_challenge_api.Services;
+namespace payroll_challenge_api.Employees;
 
 public class EmployeeService
 {

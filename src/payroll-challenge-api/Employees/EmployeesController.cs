@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using payroll_challenge_api.Services;
+using payroll_challenge_api.Employees.Model;
 
-namespace payroll_challenge_api.Controllers;
+namespace payroll_challenge_api.Employees;
 
 [ApiController]
 [Route("[controller]")]
-public class EmployeeController : ControllerBase
+public class EmployeesController : ControllerBase
 {
     private readonly EmployeeService _employeeService;
 
-    public EmployeeController(EmployeeService employeeService)
+    public EmployeesController(EmployeeService employeeService)
     {
         _employeeService = employeeService;
     }

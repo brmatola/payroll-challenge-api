@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Builder;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using payroll_challenge_api.Db;
 
 namespace payroll_challenge_api.Config;
@@ -14,16 +12,30 @@ internal static class DbExtensions
         {
             var connectionString = builder.Configuration.GetConnectionString("EmployeeContext");
 
-            options.UseNpgsql(connectionString);
+            if (!string.IsNullOrWhiteSpace(connectionString))
+            {
+                options.UseNpgsql(connectionString);
+            }
+            else
+            {
+                Console.Out.WriteLine("No database configured");
+            }
         });
     }
 
-    public static void CreateDatabase(this WebApplication app)
+    public static void CreateDatabase(this IServiceProvider services)
     {
-        using var scope = app.Services.CreateScope();
+        using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<EmployeeContext>();
-        
-        context.Database.EnsureCreated();
-        SeedData.Initialize(context);
+
+        try
+        {
+            context.Database.EnsureCreated();
+            SeedData.Initialize(context);
+        }
+        catch (Exception e)
+        {
+            // GULP - workaround TODO: improve db handling
+        }
     }
 }
