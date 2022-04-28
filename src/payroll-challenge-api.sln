@@ -6,6 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{6FE4AE
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 		.env = .env
+		..\.github\workflows\build.yml = ..\.github\workflows\build.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "payroll-challenge-api.integrationtest", "payroll-challenge-api.integrationtest\payroll-challenge-api.integrationtest.csproj", "{A5057400-5F4B-4BB5-95C1-0ADE14014EB5}"
