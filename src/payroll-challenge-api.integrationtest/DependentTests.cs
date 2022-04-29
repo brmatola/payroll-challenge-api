@@ -71,4 +71,17 @@ public class DependentTests
         var (_, results) = await _dependentClient.GetEmployeeDependents(employee.Id);
         Assert.That(results?.Count(), Is.EqualTo(0));
     }
+
+    [Test]
+    public async Task DeletingEmployeeDoesDeleteDependents()
+    {
+        var (_, employee) = await _employeeClient.Create("Steve");
+        var (_, dependent) = await _dependentClient.Create(employee.Id, "Jim");
+
+        var code = await _employeeClient.Delete(employee.Id);
+        Assert.That(code, Is.EqualTo(HttpStatusCode.OK));
+
+        var (getCode, _) = await _dependentClient.GetById(dependent.Id);
+        Assert.That(getCode, Is.EqualTo(HttpStatusCode.NotFound));
+    }
 }
