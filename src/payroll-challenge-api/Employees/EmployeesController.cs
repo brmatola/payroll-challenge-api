@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using payroll_challenge_api.Employees.Model;
 
@@ -16,7 +15,7 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<EmployeeViewModel> GetAll()
+    public Task<IEnumerable<EmployeeViewModel>> GetAll()
     {
         return _employeeManagerService.GetEmployees();
     }

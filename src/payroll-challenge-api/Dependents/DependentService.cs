@@ -7,17 +7,18 @@ namespace payroll_challenge_api.Dependents;
 
 public class DependentService
 {
-    private readonly EmployeeContext _context;
+    private readonly IDependentRepository _dependentRepository;
+    private readonly IEmployeeRepository _employeeRepository;
 
-    public DependentService(EmployeeContext context)
+    public DependentService(IDependentRepository dependentRepository, IEmployeeRepository employeeRepository)
     {
-        _context = context;
+        _dependentRepository = dependentRepository;
+        _employeeRepository = employeeRepository;
     }
 
     public async Task<DependentViewModel> GetById(Guid id)
     {
-        var dependent = await _context.Dependents.FindAsync(id);
-        if (dependent == null) throw new NotFoundException();
+        var dependent = await _dependentRepository.GetByIdAsync(id);
 
         return new DependentViewModel
         {
@@ -28,10 +29,7 @@ public class DependentService
 
     public async Task<IEnumerable<DependentViewModel>> GetDependents(Guid employeeId)
     {
-        var employee = _context.Employees
-            .Include(x => x.Dependents)
-            .SingleOrDefault(x => x.EmployeeId == employeeId);
-        if (employee == null) throw new NotFoundException();
+        var employee = await _employeeRepository.GetByIdAsync(employeeId);
 
         return employee.Dependents.Select(x => new DependentViewModel
         {
@@ -42,12 +40,11 @@ public class DependentService
 
     public async Task<DependentViewModel> AddDependent(Guid employeeId, string name)
     {
-        var employee = await _context.Employees.FindAsync(employeeId);
-        if (employee == null) throw new NotFoundException();
+        var employee = await _employeeRepository.GetByIdAsync(employeeId);
 
         var dependent = new Dependent {Name = name};
         employee.Dependents.Add(dependent);
-        await _context.SaveChangesAsync();
+        await _employeeRepository.SaveAsync();
 
         return new DependentViewModel
         {
@@ -58,10 +55,7 @@ public class DependentService
 
     public async Task DeleteById(Guid dependentId)
     {
-        var dependent = await _context.Dependents.FindAsync(dependentId);
-        if (dependent == null) throw new NotFoundException();
-
-        _context.Dependents.Remove(dependent);
-        await _context.SaveChangesAsync();
+        await _dependentRepository.RemoveAsync(dependentId);
+        
     }
 }

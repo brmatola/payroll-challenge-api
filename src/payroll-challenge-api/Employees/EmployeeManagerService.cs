@@ -5,16 +5,17 @@ namespace payroll_challenge_api.Employees;
 
 public class EmployeeManagerService
 {
-    private readonly EmployeeContext _context;
+    private readonly IEmployeeRepository _repository;
 
-    public EmployeeManagerService(EmployeeContext context)
+    public EmployeeManagerService(IEmployeeRepository repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
-    public IEnumerable<EmployeeViewModel> GetEmployees()
+    public async Task<IEnumerable<EmployeeViewModel>> GetEmployees()
     {
-        return _context.Employees.Select(x => new EmployeeViewModel
+        var employees = await _repository.GetEmployees();
+        return employees.Select(x => new EmployeeViewModel
         {
             Id = x.EmployeeId,
             Name = x.Name
@@ -23,8 +24,7 @@ public class EmployeeManagerService
 
     public async Task<EmployeeViewModel> GetById(Guid id)
     {
-        var employee = await _context.Employees.FindAsync(id);
-        if (employee == null) throw new NotFoundException();
+        var employee = await _repository.GetByIdAsync(id);
 
         return new EmployeeViewModel
         {
@@ -35,9 +35,7 @@ public class EmployeeManagerService
 
     public async Task<EmployeeViewModel> Add(string name)
     {
-        var employee = new Employee {Name = name};
-        await _context.AddAsync(employee);
-        await _context.SaveChangesAsync();
+        var employee = await _repository.AddAsync(name);
 
         return new EmployeeViewModel
         {
@@ -48,10 +46,6 @@ public class EmployeeManagerService
 
     public async Task DeleteById(Guid id)
     {
-        var employee = await _context.Employees.FindAsync(id);
-        if (employee == null) throw new NotFoundException();
-        
-        _context.Employees.Remove(employee);
-        await _context.SaveChangesAsync();
+        await _repository.RemoveAsync(id);
     }
 }
