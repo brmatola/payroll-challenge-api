@@ -15,8 +15,21 @@ public class DependentsController : ControllerBase
     }
 
     [HttpGet]
-    public Task<IEnumerable<DependentViewModel>> GetAll(Guid employeeId)
+    public async Task<IEnumerable<DependentViewModel>> GetAll(Guid employeeId)
     {
-        return _dependentService.GetDependents(employeeId);
+        return await _dependentService.GetDependents(employeeId);
+    }
+
+    [HttpGet("/dependents/{dependentId:guid}")]
+    public async Task<DependentViewModel> Get(Guid dependentId)
+    {
+        return await _dependentService.GetById(dependentId);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<DependentViewModel>> Create(Guid employeeId, [FromBody] NewDependentRequest newDependentRequest)
+    {
+        var dependent = await _dependentService.AddDependent(employeeId, newDependentRequest.Name);
+        return Created($"/employees/{employeeId}/dependents/{dependent.Id}", dependent);
     }
 }
