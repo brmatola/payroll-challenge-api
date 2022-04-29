@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using payroll_challenge_api.Dependents.Model;
 using payroll_challenge_api.Employees.Model;
 
@@ -36,5 +37,11 @@ public class DependentClient : BaseClient
         var response = await Client.PostAsync($"employees/{employeeId}/dependents", 
             new StringContent(obj.ToString(), Encoding.UTF8, "application/json"));
         return await ParseResponseAsync<DependentViewModel>(response);
+    }
+
+    public async Task<HttpStatusCode> Delete(Guid dependentId)
+    {
+        var response = await Client.DeleteAsync($"/dependents/{dependentId}");
+        return response.StatusCode;
     }
 }

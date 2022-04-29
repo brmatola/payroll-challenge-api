@@ -26,6 +26,13 @@ public class DependentsController : ControllerBase
         return await _dependentService.GetById(dependentId);
     }
 
+    [HttpDelete("/dependents/{dependentId:guid}")]
+    public async Task<ActionResult> Delete(Guid dependentId)
+    {
+        await _dependentService.DeleteById(dependentId);
+        return Ok();
+    }
+
     [HttpPost]
     public async Task<ActionResult<DependentViewModel>> Create(Guid employeeId, [FromBody] NewDependentRequest newDependentRequest)
     {

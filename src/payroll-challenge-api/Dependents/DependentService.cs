@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using payroll_challenge_api.Db;
 using payroll_challenge_api.Dependents.Model;
@@ -53,5 +54,14 @@ public class DependentService
             Id = dependent.DependentId,
             Name = dependent.Name
         };
+    }
+
+    public async Task DeleteById(Guid dependentId)
+    {
+        var dependent = await _context.Dependents.FindAsync(dependentId);
+        if (dependent == null) throw new NotFoundException();
+
+        _context.Dependents.Remove(dependent);
+        await _context.SaveChangesAsync();
     }
 }
