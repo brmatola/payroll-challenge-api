@@ -13,7 +13,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<EmployeeManagerService>();
 builder.Services.AddScoped<DependentService>();
 
 builder.UseEmployeeContext();

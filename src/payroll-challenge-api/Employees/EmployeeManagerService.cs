@@ -3,11 +3,11 @@ using payroll_challenge_api.Employees.Model;
 
 namespace payroll_challenge_api.Employees;
 
-public class EmployeeService
+public class EmployeeManagerService
 {
     private readonly EmployeeContext _context;
 
-    public EmployeeService(EmployeeContext context)
+    public EmployeeManagerService(EmployeeContext context)
     {
         _context = context;
     }

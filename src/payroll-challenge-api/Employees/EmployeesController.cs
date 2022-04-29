@@ -8,36 +8,36 @@ namespace payroll_challenge_api.Employees;
 [Route("[controller]")]
 public class EmployeesController : ControllerBase
 {
-    private readonly EmployeeService _employeeService;
+    private readonly EmployeeManagerService _employeeManagerService;
 
-    public EmployeesController(EmployeeService employeeService)
+    public EmployeesController(EmployeeManagerService employeeManagerService)
     {
-        _employeeService = employeeService;
+        _employeeManagerService = employeeManagerService;
     }
 
     [HttpGet]
     public IEnumerable<EmployeeViewModel> GetAll()
     {
-        return _employeeService.GetEmployees();
+        return _employeeManagerService.GetEmployees();
     }
 
     [HttpGet("{id:guid}")]
     public Task<EmployeeViewModel> Get(Guid id)
     {
-        return _employeeService.GetById(id);
+        return _employeeManagerService.GetById(id);
     }
 
     [HttpPost]
     public async Task<ActionResult<EmployeeViewModel>> Add([FromBody] NewEmployeeRequest employee)
     {
-        var newEmployee = await _employeeService.Add(employee.Name);
+        var newEmployee = await _employeeManagerService.Add(employee.Name);
         return Created($"/employees/{newEmployee.Id}", newEmployee);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _employeeService.DeleteById(id);
+        await _employeeManagerService.DeleteById(id);
         return Ok();
     }
 }
