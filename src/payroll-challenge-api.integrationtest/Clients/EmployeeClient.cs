@@ -42,6 +42,12 @@ public class EmployeeClient : BaseClient
         var response = await Client.DeleteAsync($"Employees/{id}");
         return response.StatusCode;
     }
+
+    public async Task<(HttpStatusCode, BenefitCostResponse?)> GetBenefitCost(Guid id)
+    {
+        var response = await Client.GetAsync($"Employees/{id}/benefit_cost");
+        return await ParseResponseAsync<BenefitCostResponse>(response);
+    }
 }
     
     

@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using payroll_challenge_api.Db;
 using payroll_challenge_api.Dependents.Model;
 

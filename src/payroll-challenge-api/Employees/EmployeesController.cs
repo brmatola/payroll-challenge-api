@@ -8,10 +8,12 @@ namespace payroll_challenge_api.Employees;
 public class EmployeesController : ControllerBase
 {
     private readonly EmployeeManagerService _employeeManagerService;
+    private readonly EmployeeBenefitService _employeeBenefitService;
 
-    public EmployeesController(EmployeeManagerService employeeManagerService)
+    public EmployeesController(EmployeeManagerService employeeManagerService, EmployeeBenefitService employeeBenefitService)
     {
         _employeeManagerService = employeeManagerService;
+        _employeeBenefitService = employeeBenefitService;
     }
 
     [HttpGet]
@@ -38,5 +40,11 @@ public class EmployeesController : ControllerBase
     {
         await _employeeManagerService.DeleteById(id);
         return Ok();
+    }
+
+    [HttpGet("{id:guid}/benefit_cost")]
+    public Task<BenefitCostResponse> GetBenefitCost(Guid id)
+    {
+        return _employeeBenefitService.GetBenefitCost(id);
     }
 }
