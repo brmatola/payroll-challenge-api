@@ -8,4 +8,9 @@ public class DollarsPerYear
     }
     
     public double Value { get; }
+
+    public static DollarsPerYear operator +(DollarsPerYear a, DollarsPerYear b)
+    {
+        return new DollarsPerYear(a.Value + b.Value);
+    }
 }

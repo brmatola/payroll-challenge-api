@@ -4,5 +4,5 @@ namespace payroll_challenge_api.Benefits;
 
 public interface IEmployeeBenefitProviderFactory
 {
-    Task<IEmployeeBenefitProvider> GetProvider(Employee employee);
+    Task<EmployeeBenefitProvider> GetProvider(Employee employee);
 }

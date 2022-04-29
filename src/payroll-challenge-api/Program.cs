@@ -1,4 +1,6 @@
 using payroll_challenge_api.Benefits;
+using payroll_challenge_api.Benefits.Dependents;
+using payroll_challenge_api.Benefits.Employees;
 using payroll_challenge_api.Config;
 using payroll_challenge_api.Db;
 using payroll_challenge_api.Dependents;
@@ -19,6 +21,7 @@ builder.Services.AddScoped<EmployeeManagerService>();
 builder.Services.AddScoped<EmployeeBenefitService>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeBenefitProviderFactory, EmployeeBenefitProviderFactory>();
+builder.Services.AddScoped<IDependentBenefitProviderFactory, DependentBenefitProviderFactory>();
 
 builder.Services.AddScoped<DependentService>();
 builder.Services.AddScoped<IDependentRepository, DependentRepository>();
