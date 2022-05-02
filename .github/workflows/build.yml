@@ -4,11 +4,14 @@ on:
   push:
     branches:
       - main
-    pull_request:
 
 jobs:
   build:
     name: 'Build'
+    env:
+      REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+      USERNAME: ${{ secrets.AZURE_TOKEN_USERNAME }}
+      PASSWORD: ${{ secrets.AZURE_TOKEN_PASSWORD }}
     runs-on: ubuntu-latest
     
     steps:
@@ -18,3 +21,13 @@ jobs:
       - name: Test
         working-directory: ./src
         run: dotnet test
+        
+      - name: Build Dockerfile
+        working-directory: ./src
+        run: docker build -f payroll-challenge-api/Dockerfile -t $REGISTRY/api .
+
+      - name: Docker login
+        run: echo $PASSWORD | docker login --username $USERNAME --password-stdin $REGISTRY
+
+      - name: Docker push
+        run: docker push $REGISTRY/api
