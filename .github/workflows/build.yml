@@ -27,7 +27,7 @@ jobs:
         run: docker build -f payroll-challenge-api/Dockerfile -t $REGISTRY/api .
 
       - name: Docker login
-        run: echo $PASSWORD | docker login --username $USERNAME --password-stdin $REGISTRY
+        run: docker login --username $USERNAME --password $PASSWORD $REGISTRY
 
       - name: Docker push
         run: docker push $REGISTRY/api
