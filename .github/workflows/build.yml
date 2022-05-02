@@ -10,8 +10,8 @@ jobs:
     name: 'Build'
     env:
       REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
-      USERNAME: ${{ secrets.AZURE_TOKEN_USERNAME }}
-      PASSWORD: ${{ secrets.AZURE_TOKEN_PASSWORD }}
+      USERNAME: ${{ secrets.ACR_TOKEN_USERNAME }}
+      PASSWORD: ${{ secrets.ACR_TOKEN_PASSWORD }}
     runs-on: ubuntu-latest
     
     steps:
