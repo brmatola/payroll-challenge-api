@@ -22,6 +22,7 @@ public class EmployeeBenefitService
         _employeePayProvider = employeePayProvider;
     }
 
+    
     public async Task<BenefitCostResponse> GetBenefitCost(Guid employeeId)
     {
         var cost = await GetBenefitCostPrivate(employeeId);
