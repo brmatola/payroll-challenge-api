@@ -5,15 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using payroll_challenge_api.Employees.Model;
 using payroll_challenge_api.integrationtest.Clients;
 
 namespace payroll_challenge_api.integrationtest;
 
 public class BenefitTests
 {
-    private DependentClient _dependentClient = new DependentClient(new HttpClient());
-    private EmployeeClient _employeeClient = new EmployeeClient(new HttpClient());
+    private DependentClient _dependentClient = new(new HttpClient());
+    private EmployeeClient _employeeClient = new(new HttpClient());
     
     [SetUp]
     public void Setup()
@@ -39,14 +38,20 @@ public class BenefitTests
         Assert.That(status, Is.EqualTo(HttpStatusCode.OK));
         Assert.That(cost?.DollarPerYear, Is.EqualTo(data.ExpectedBenefitCost));
 
+        var (payStatus, paycheck) = await _employeeClient.GetPaycheck(employee.Id);
+
+        Assert.That(payStatus, Is.EqualTo(HttpStatusCode.OK));
+        Assert.That(paycheck?.DollarPerYear, Is.EqualTo(data.ExpectedPaycheck));
+        
         await _employeeClient.Delete(employee.Id);
     }
 
     public class BenefitTestCase
     {
-        public string EmployeeName { get; set; }
-        public List<string> DependentNames { get; set; }
-        public double ExpectedBenefitCost { get; set; }
+        public string EmployeeName { get; init; } = "";
+        public List<string> DependentNames { get; init; } = new();
+        public double ExpectedBenefitCost { get; init; }
+        public double ExpectedPaycheck { get; init; }
     }
 
     private class BenefitTestCases : IEnumerable
@@ -57,25 +62,29 @@ public class BenefitTests
             {
                 EmployeeName = "Brad",
                 DependentNames = new List<string>(),
-                ExpectedBenefitCost = 1000
+                ExpectedBenefitCost = 1000,
+                ExpectedPaycheck = 51000
             };
             yield return new BenefitTestCase
             {
                 EmployeeName = "Adam",
                 DependentNames = new List<string>(),
-                ExpectedBenefitCost = 900
+                ExpectedBenefitCost = 900,
+                ExpectedPaycheck = 51100
             };
             yield return new BenefitTestCase
             {
                 EmployeeName = "Brad",
                 DependentNames = new List<string> { "Noodle" },
-                ExpectedBenefitCost = 1500
+                ExpectedBenefitCost = 1500,
+                ExpectedPaycheck = 50500
             };
             yield return new BenefitTestCase
             {
                 EmployeeName = "Brad",
                 DependentNames = new List<string> { "Noodle", "Andrew" },
-                ExpectedBenefitCost = 1950
+                ExpectedBenefitCost = 1950,
+                ExpectedPaycheck = 50050
             };
         }
     }

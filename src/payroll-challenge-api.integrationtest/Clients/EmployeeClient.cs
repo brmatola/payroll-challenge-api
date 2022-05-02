@@ -48,6 +48,12 @@ public class EmployeeClient : BaseClient
         var response = await Client.GetAsync($"Employees/{id}/benefit_cost");
         return await ParseResponseAsync<BenefitCostResponse>(response);
     }
+
+    public async Task<(HttpStatusCode, BenefitCostResponse?)> GetPaycheck(Guid id)
+    {
+        var response = await Client.GetAsync($"Employees/{id}/paycheck");
+        return await ParseResponseAsync<BenefitCostResponse>(response);
+    }
 }
     
     

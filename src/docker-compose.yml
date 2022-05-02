@@ -8,6 +8,7 @@ services:
       - "8080:80"
     environment:
       ConnectionStrings__EmployeeContext: "Host=host.docker.internal;Port=5432;Database=${POSTGRES_DATABASE};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+      FrontendOrigin: "http://localhost:3000"
     depends_on:
       - database
         

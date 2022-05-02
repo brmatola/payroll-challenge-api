@@ -47,4 +47,10 @@ public class EmployeesController : ControllerBase
     {
         return _employeeBenefitService.GetBenefitCost(id);
     }
+
+    [HttpGet("{id:guid}/paycheck")]
+    public Task<BenefitCostResponse> GetPaycheck(Guid id)
+    {
+        return _employeeBenefitService.GetPaycheck(id);
+    }
 }
