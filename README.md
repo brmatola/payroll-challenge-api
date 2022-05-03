@@ -7,4 +7,4 @@ See the OpenAPI spec at `/swagger/index.html` for functionality.
 ## Environment Variables
 
 - ConnectionStrings\_\_EmployeeContext - the connection string to a PostgreSQL database
-- FrontendOrigin - the origin to allow CORS requests from
+- FrontendOrigin - the origin to allow CORS requests from (e.g. http://localhost:3000)
