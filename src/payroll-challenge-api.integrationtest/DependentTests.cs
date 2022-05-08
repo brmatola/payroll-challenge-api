@@ -84,4 +84,13 @@ public class DependentTests
         var (getCode, _) = await _dependentClient.GetById(dependent.Id);
         Assert.That(getCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
+
+    [Test]
+    public async Task CannotCreateDependentWithEmptyName()
+    {
+        var (_, employee) = await _employeeClient.Create("Brad");
+        var (status, _) = await _dependentClient.Create(employee.Id, "");
+        
+        Assert.That(status, Is.EqualTo(HttpStatusCode.BadRequest));
+    }
 }
