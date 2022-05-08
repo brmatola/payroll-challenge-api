@@ -84,4 +84,12 @@ public class EmployeeTests
         var (statusCode2, _) = await _client.Get(first.Id);
         Assert.That(statusCode2, Is.EqualTo(HttpStatusCode.NotFound));
     }
+
+    [Test]
+    public async Task CannotAddWithEmptyName()
+    {
+        var (status, _) = await _client.Create("");
+        
+        Assert.That(status, Is.EqualTo(HttpStatusCode.BadRequest));
+    }
 }
