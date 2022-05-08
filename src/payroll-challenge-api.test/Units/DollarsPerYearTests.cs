@@ -43,4 +43,15 @@ public class DollarsPerYearTests
             var newAmount = a - b;
         });
     }
+
+    [TestCase(26, 1)]
+    [TestCase(100, 3.84)]
+    [TestCase(0, 0)]
+    public void CanConvertToBiWeek(double amount, double expected)
+    {
+        var perYear = new DollarsPerYear(amount);
+        var perBiWeek = (DollarsPerBiWeek) perYear;
+        
+        Assert.That(perBiWeek.Value, Is.EqualTo(expected));
+    }
 }

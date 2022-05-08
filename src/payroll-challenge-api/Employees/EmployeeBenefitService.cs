@@ -11,30 +11,33 @@ public class EmployeeBenefitService
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IEmployeeBenefitProviderFactory _employeeBenefitProviderFactory;
     private readonly IEmployeePayProvider _employeePayProvider;
+    private readonly IPayConverter _payConverter;
 
     public EmployeeBenefitService(
         IEmployeeRepository employeeRepository,
         IEmployeeBenefitProviderFactory employeeBenefitProviderFactory,
-        IEmployeePayProvider employeePayProvider)
+        IEmployeePayProvider employeePayProvider,
+        IPayConverter payConverter)
     {
         _employeeRepository = employeeRepository;
         _employeeBenefitProviderFactory = employeeBenefitProviderFactory;
         _employeePayProvider = employeePayProvider;
+        _payConverter = payConverter;
     }
 
     
-    public async Task<BenefitCostResponse> GetBenefitCost(Guid employeeId)
+    public async Task<BenefitCostResponse> GetBenefitCost(Guid employeeId, TimePeriod timePeriod)
     {
         var cost = await GetBenefitCostPrivate(employeeId);
 
         return new BenefitCostResponse
         {
-            Amount = cost.Value,
-            TimePeriod = TimePeriod.PerYear
+            Amount = await _payConverter.Convert(employeeId, cost, timePeriod),
+            TimePeriod = timePeriod
         };
     }
 
-    public async Task<BenefitCostResponse> GetPaycheck(Guid employeeId)
+    public async Task<BenefitCostResponse> GetPaycheck(Guid employeeId, TimePeriod timePeriod)
     {
         var benefitCost = await GetBenefitCostPrivate(employeeId);
         var pay = await _employeePayProvider.GetPay(employeeId);
@@ -43,8 +46,8 @@ public class EmployeeBenefitService
 
         return new BenefitCostResponse
         {
-            Amount = paycheck.Value,
-            TimePeriod = TimePeriod.PerYear
+            Amount = await _payConverter.Convert(employeeId, paycheck, timePeriod),
+            TimePeriod = timePeriod
         };
     }
 

@@ -28,6 +28,7 @@ builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeBenefitProviderFactory, EmployeeBenefitProviderFactory>();
 builder.Services.AddScoped<IDependentBenefitProviderFactory, DependentBenefitProviderFactory>();
 builder.Services.AddScoped<IEmployeePayProvider, EqualEmployeePayProvider>();
+builder.Services.AddScoped<IPayConverter, BiMonthlyPayConverter>();
 
 builder.Services.AddScoped<DependentService>();
 builder.Services.AddScoped<IDependentRepository, DependentRepository>();

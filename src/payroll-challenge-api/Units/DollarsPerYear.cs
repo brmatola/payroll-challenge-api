@@ -20,4 +20,11 @@ public class DollarsPerYear
         if (amount < 0) throw new ArgumentException("Cannot have negative dollars per year");
         return new DollarsPerYear(amount);
     }
+
+    public static explicit operator DollarsPerBiWeek(DollarsPerYear amount)
+    {
+        var cents = (int) amount.Value *100;
+        var converted = cents / 26;
+        return new DollarsPerBiWeek((double)(converted)/100);
+    }
 }

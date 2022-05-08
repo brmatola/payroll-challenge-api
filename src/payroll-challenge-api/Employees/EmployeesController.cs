@@ -45,12 +45,12 @@ public class EmployeesController : ControllerBase
     [HttpGet("{id:guid}/benefit_cost")]
     public Task<BenefitCostResponse> GetBenefitCost(Guid id, [FromQuery] TimePeriod timePeriod)
     {
-        return _employeeBenefitService.GetBenefitCost(id);
+        return _employeeBenefitService.GetBenefitCost(id, timePeriod);
     }
 
     [HttpGet("{id:guid}/paycheck")]
     public Task<BenefitCostResponse> GetPaycheck(Guid id, [FromQuery] TimePeriod timePeriod)
     {
-        return _employeeBenefitService.GetPaycheck(id);
+        return _employeeBenefitService.GetPaycheck(id, timePeriod);
     }
 }

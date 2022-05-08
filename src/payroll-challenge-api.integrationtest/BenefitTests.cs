@@ -94,6 +94,22 @@ public class BenefitTests
                 ExpectedPaycheck = 50050,
                 TimePeriod = TimePeriod.PerYear
             };
+            yield return new BenefitTestCase
+            {
+                EmployeeName = "Brad",
+                DependentNames = new List<string>(),
+                ExpectedBenefitCost = 38.46,
+                ExpectedPaycheck = 1961.53,
+                TimePeriod = TimePeriod.PerPaycheck
+            };
+            yield return new BenefitTestCase
+            {
+                EmployeeName = "Brad",
+                DependentNames = new List<string> { "Noodle", "Andrew" },
+                ExpectedBenefitCost = 75,
+                ExpectedPaycheck = 1925,
+                TimePeriod = TimePeriod.PerPaycheck
+            };
         }
     }
 }
