@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using payroll_challenge_api.Employees.Model;
 using payroll_challenge_api.integrationtest.Clients;
 
 namespace payroll_challenge_api.integrationtest;
@@ -36,12 +37,14 @@ public class BenefitTests
         var (status, cost) = await _employeeClient.GetBenefitCost(employee.Id);
         
         Assert.That(status, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(cost?.DollarPerYear, Is.EqualTo(data.ExpectedBenefitCost));
+        Assert.That(cost?.Amount, Is.EqualTo(data.ExpectedBenefitCost));
+        Assert.That(cost?.TimePeriod, Is.EqualTo(TimePeriod.PerYear));
 
         var (payStatus, paycheck) = await _employeeClient.GetPaycheck(employee.Id);
 
         Assert.That(payStatus, Is.EqualTo(HttpStatusCode.OK));
-        Assert.That(paycheck?.DollarPerYear, Is.EqualTo(data.ExpectedPaycheck));
+        Assert.That(paycheck?.Amount, Is.EqualTo(data.ExpectedPaycheck));
+        Assert.That(paycheck?.TimePeriod, Is.EqualTo(TimePeriod.PerYear));
         
         await _employeeClient.Delete(employee.Id);
     }

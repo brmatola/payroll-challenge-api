@@ -29,7 +29,8 @@ public class EmployeeBenefitService
 
         return new BenefitCostResponse
         {
-            DollarPerYear = cost.Value
+            Amount = cost.Value,
+            TimePeriod = TimePeriod.PerYear
         };
     }
 
@@ -42,7 +43,8 @@ public class EmployeeBenefitService
 
         return new BenefitCostResponse
         {
-            DollarPerYear = paycheck.Value
+            Amount = paycheck.Value,
+            TimePeriod = TimePeriod.PerYear
         };
     }
 
