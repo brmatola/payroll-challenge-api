@@ -43,15 +43,15 @@ public class EmployeeClient : BaseClient
         return response.StatusCode;
     }
 
-    public async Task<(HttpStatusCode, BenefitCostResponse?)> GetBenefitCost(Guid id)
+    public async Task<(HttpStatusCode, BenefitCostResponse?)> GetBenefitCost(Guid id, TimePeriod timePeriod)
     {
-        var response = await Client.GetAsync($"Employees/{id}/benefit_cost");
+        var response = await Client.GetAsync($"Employees/{id}/benefit_cost?timePeriod={timePeriod.ToString()}");
         return await ParseResponseAsync<BenefitCostResponse>(response);
     }
 
-    public async Task<(HttpStatusCode, BenefitCostResponse?)> GetPaycheck(Guid id)
+    public async Task<(HttpStatusCode, BenefitCostResponse?)> GetPaycheck(Guid id, TimePeriod timePeriod)
     {
-        var response = await Client.GetAsync($"Employees/{id}/paycheck");
+        var response = await Client.GetAsync($"Employees/{id}/paycheck?timePeriod={timePeriod.ToString()}");
         return await ParseResponseAsync<BenefitCostResponse>(response);
     }
 }

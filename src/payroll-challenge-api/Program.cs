@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using payroll_challenge_api.Benefits;
 using payroll_challenge_api.Benefits.Dependents;
 using payroll_challenge_api.Benefits.Employees;
@@ -13,6 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<NotFoundExceptionFilter>();
+}).AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 builder.Services.AddEndpointsApiExplorer();

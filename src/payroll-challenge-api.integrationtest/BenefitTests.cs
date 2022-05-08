@@ -34,17 +34,17 @@ public class BenefitTests
             await _dependentClient.Create(employee.Id, dependent);
         }
 
-        var (status, cost) = await _employeeClient.GetBenefitCost(employee.Id);
+        var (status, cost) = await _employeeClient.GetBenefitCost(employee.Id, data.TimePeriod);
         
         Assert.That(status, Is.EqualTo(HttpStatusCode.OK));
         Assert.That(cost?.Amount, Is.EqualTo(data.ExpectedBenefitCost));
-        Assert.That(cost?.TimePeriod, Is.EqualTo(TimePeriod.PerYear));
+        Assert.That(cost?.TimePeriod, Is.EqualTo(data.TimePeriod));
 
-        var (payStatus, paycheck) = await _employeeClient.GetPaycheck(employee.Id);
+        var (payStatus, paycheck) = await _employeeClient.GetPaycheck(employee.Id, data.TimePeriod);
 
         Assert.That(payStatus, Is.EqualTo(HttpStatusCode.OK));
         Assert.That(paycheck?.Amount, Is.EqualTo(data.ExpectedPaycheck));
-        Assert.That(paycheck?.TimePeriod, Is.EqualTo(TimePeriod.PerYear));
+        Assert.That(paycheck?.TimePeriod, Is.EqualTo(data.TimePeriod));
         
         await _employeeClient.Delete(employee.Id);
     }
@@ -55,6 +55,7 @@ public class BenefitTests
         public List<string> DependentNames { get; init; } = new();
         public double ExpectedBenefitCost { get; init; }
         public double ExpectedPaycheck { get; init; }
+        public TimePeriod TimePeriod { get; init; }
     }
 
     private class BenefitTestCases : IEnumerable
@@ -66,28 +67,32 @@ public class BenefitTests
                 EmployeeName = "Brad",
                 DependentNames = new List<string>(),
                 ExpectedBenefitCost = 1000,
-                ExpectedPaycheck = 51000
+                ExpectedPaycheck = 51000,
+                TimePeriod = TimePeriod.PerYear
             };
             yield return new BenefitTestCase
             {
                 EmployeeName = "Adam",
                 DependentNames = new List<string>(),
                 ExpectedBenefitCost = 900,
-                ExpectedPaycheck = 51100
+                ExpectedPaycheck = 51100,
+                TimePeriod = TimePeriod.PerYear
             };
             yield return new BenefitTestCase
             {
                 EmployeeName = "Brad",
                 DependentNames = new List<string> { "Noodle" },
                 ExpectedBenefitCost = 1500,
-                ExpectedPaycheck = 50500
+                ExpectedPaycheck = 50500,
+                TimePeriod = TimePeriod.PerYear
             };
             yield return new BenefitTestCase
             {
                 EmployeeName = "Brad",
                 DependentNames = new List<string> { "Noodle", "Andrew" },
                 ExpectedBenefitCost = 1950,
-                ExpectedPaycheck = 50050
+                ExpectedPaycheck = 50050,
+                TimePeriod = TimePeriod.PerYear
             };
         }
     }
